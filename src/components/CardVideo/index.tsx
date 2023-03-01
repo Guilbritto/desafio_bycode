@@ -11,7 +11,7 @@ interface CardVideoProps {
 const CardVideo = ({ video }: CardVideoProps) => {
     const [playing, setPlaying] = useState(false);
     const [channelImg, setChannelImg] = useState('')
-    const { getChannelById } = useYouTube();
+    const { getChannelById, setVideoHistory } = useYouTube();
 
     const videoId = video.id.videoId || video.id;
     let timeout: number;
@@ -29,9 +29,15 @@ const CardVideo = ({ video }: CardVideoProps) => {
         clearTimeout(timeout);
         setPlaying(false);
     }
-    
+    const handleClick = () => {
+        setVideoHistory((old: Video[]) => {
+            const curr = [...old, video]
+            localStorage.setItem('@desafio_history_video', JSON.stringify(curr))
+            return curr
+        })
+    }
     return (
-        <CardContainer to={`watch/${videoId}`} onMouseEnter={() => handleHover()}
+        <CardContainer onClick={handleClick} to={`watch/${videoId}`} onMouseEnter={() => handleHover()}
             onMouseLeave={() => handleBlur()}>
             <ReactPlayer
                 playing={playing}
