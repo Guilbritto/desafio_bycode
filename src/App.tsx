@@ -7,14 +7,14 @@ import { Container } from './components/Container'
 
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthContextProvider } from './hooks/useAuth'
-import { CustomThemeProvider, createTheme, ToastProvider } from 'dga-ui'
+import { CustomThemeProvider, createTheme } from 'dga-ui'
 import { YouTubeContextProvider } from './hooks/useYoutube'
+import { KEYS } from './shared/constants'
 function App() {
 
   return (
-    <GoogleOAuthProvider clientId='591942177468-f9loc2evvrsb1a42co2kf0jcag7cofi5.apps.googleusercontent.com'>
+    <GoogleOAuthProvider clientId={KEYS.YT_OAUTH_KEY}>
       <CustomThemeProvider theme={createTheme({})} >
-        <ToastProvider >
           <AuthContextProvider >
             <YouTubeContextProvider>
 
@@ -30,7 +30,6 @@ function App() {
             </YouTubeContextProvider>
 
           </AuthContextProvider>
-        </ToastProvider>
       </CustomThemeProvider>
     </GoogleOAuthProvider >
   )

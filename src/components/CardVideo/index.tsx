@@ -28,13 +28,14 @@ const CardVideo = ({ video }: CardVideoProps) => {
         clearTimeout(timeout);
         setPlaying(false);
     }
-    useEffect(() => { })
+    
     return (
         <CardContainer to={`watch/${video.id}`} onMouseEnter={() => handleHover()}
             onMouseLeave={() => handleBlur()}>
             <ReactPlayer
                 playing={playing}
                 width='auto'
+                light
                 height={170}
                 url={`https://www.youtube.com/watch?v=${video.id}`} />
 
@@ -42,7 +43,6 @@ const CardVideo = ({ video }: CardVideoProps) => {
                 <img src={channelImg} alt="" />
                 <div>
                     <p>{video.snippet.title}</p>
-                    <small>{video.statistics.viewCount} vizualizações</small>
                 </div>
             </CardContent>
         </CardContainer>

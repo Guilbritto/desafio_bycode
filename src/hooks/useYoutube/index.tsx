@@ -1,5 +1,6 @@
 import { useToast } from "dga-ui";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { KEYS } from "../../shared/constants";
 import { api } from "../../shared/service/api";
 import { ListVideoRequest, Video } from "../../shared/types/Video";
 import { useAuth } from "../useAuth";
@@ -10,6 +11,7 @@ interface YouTubeContextData {
     getVideos: () => void,
     getChannelById: (channelId: string) => Promise<ListVideoRequest | undefined>
     videos: Video[];
+    videoHistory: Video[];
     historyTerm: string[];
 
 }
@@ -20,12 +22,15 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
     const [requestInfo, setRequestInfor] = useState<ListVideoRequest>()
     const [videos, setVideos] = useState<Video[]>([] as Video[])
     const [historyTerm, setHistoryTerm] = useState<string[]>([''])
+    const [videoHistory, setvideoHistory] = useState<Video[]>([] as Video[])
     const { accessToken } = useAuth()
     const { addToast } = useToast()
 
     useEffect(() => {
         const history = localStorage.getItem('@desafio_history')
         history && setHistoryTerm(JSON.parse(history));
+        const historyVideo = localStorage.getItem('@desafio_history_video')
+        historyVideo && setvideoHistory(JSON.parse(historyVideo));
 
     }, [])
 
@@ -36,7 +41,7 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
             const response = await api.get<ListVideoRequest>('channels', {
                 headers,
                 params: {
-                    key: 'AIzaSyBYd3N1AjZdvUxfZM7SYaQM_0E1frk67gs',
+                    key: KEYS.YT_API_KEY,
                     id: channelId,
                     part: 'snippet'
                 }
@@ -56,7 +61,7 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
             const response = await api.get<ListVideoRequest>('videos', {
                 headers,
                 params: {
-                    key: 'AIzaSyBYd3N1AjZdvUxfZM7SYaQM_0E1frk67gs',
+                    key: KEYS.YT_API_KEY,
                     chart: 'mostPopular',
                     region: 'BR',
                     part: 'snippet,contentDetails,statistics'
@@ -73,7 +78,12 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
 
     }, [accessToken])
 
-    return <YouTubeContext.Provider value={{ getVideos, getChannelById, historyTerm,videos }} >{children}</YouTubeContext.Provider>
+    return <YouTubeContext.Provider value={{ 
+        getVideos, 
+        getChannelById, 
+        videoHistory,
+        historyTerm,
+        videos }} >{children}</YouTubeContext.Provider>
 }
 
 
