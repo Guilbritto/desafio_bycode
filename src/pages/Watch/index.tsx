@@ -10,7 +10,7 @@ import { PageContainer, VideoContainer, VideoInfo, VideoDescription, RelatedVide
 
 const Watch: React.FC = () => {
     let { id } = useParams();
-    const {setVideoHistory,getVideosById, getChannelById, getRelatedVideos, currentVideo, relatedVideos} = useYouTube();
+    const {getVideosById, getChannelById, getRelatedVideos, currentVideo, relatedVideos} = useYouTube();
     const [channelImg, setChannelImg] = useState('')
 
     
