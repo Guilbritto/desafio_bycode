@@ -10,6 +10,7 @@ interface YouTubeContextData {
     getVideos: () => void,
     getChannelById: (channelId: string) => Promise<ListVideoRequest | undefined>
     videos: Video[];
+    historyTerm: string[];
 
 }
 
@@ -18,9 +19,15 @@ const YouTubeContext = createContext<YouTubeContextData>({} as YouTubeContextDat
 const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [requestInfo, setRequestInfor] = useState<ListVideoRequest>()
     const [videos, setVideos] = useState<Video[]>([] as Video[])
-
+    const [historyTerm, setHistoryTerm] = useState<string[]>([''])
     const { accessToken } = useAuth()
     const { addToast } = useToast()
+
+    useEffect(() => {
+        const history = localStorage.getItem('@desafio_history')
+        history && setHistoryTerm(JSON.parse(history));
+
+    }, [])
 
     const getChannelById = useCallback(async (channelId: string) => {
         try {
@@ -66,7 +73,7 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
 
     }, [accessToken])
 
-    return <YouTubeContext.Provider value={{ getVideos, getChannelById, videos }} >{children}</YouTubeContext.Provider>
+    return <YouTubeContext.Provider value={{ getVideos, getChannelById, historyTerm,videos }} >{children}</YouTubeContext.Provider>
 }
 
 

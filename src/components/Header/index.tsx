@@ -52,9 +52,7 @@ const Header: React.FC = () => {
                 )
                 }
                 <Menu>
-                    <MenuItem to='/'>Subscriptions</MenuItem>
-                    <MenuItem to='/'>History</MenuItem>
-                    <MenuItem to='/'>Upload</MenuItem>
+                    <MenuItem to='/history'>History</MenuItem>
                 </Menu>
             </UserArea >
         </HeaderContainer >);
