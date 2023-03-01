@@ -10,6 +10,7 @@ import { useAuth } from "../useAuth";
 interface YouTubeContextData {
     getVideos: () => void,
     getChannelById: (channelId: string) => Promise<ListVideoRequest | undefined>
+    search: (seatchTerm: string) => void;
     videos: Video[];
     videoHistory: Video[];
     historyTerm: string[];
@@ -19,7 +20,6 @@ interface YouTubeContextData {
 const YouTubeContext = createContext<YouTubeContextData>({} as YouTubeContextData);
 
 const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [requestInfo, setRequestInfor] = useState<ListVideoRequest>()
     const [videos, setVideos] = useState<Video[]>([] as Video[])
     const [historyTerm, setHistoryTerm] = useState<string[]>([''])
     const [videoHistory, setvideoHistory] = useState<Video[]>([] as Video[])
@@ -36,7 +36,6 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
 
     const getChannelById = useCallback(async (channelId: string) => {
         try {
-
             const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
             const response = await api.get<ListVideoRequest>('channels', {
                 headers,
@@ -55,6 +54,29 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
         }
     }, []);
 
+    const search = useCallback(async (searchTerm: string) => {
+        try {
+            const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
+            const response = await api.get<ListVideoRequest>('search', {
+                headers,
+                params: {
+                    key: KEYS.YT_API_KEY,
+                    q:searchTerm,
+                    maxResults: 25,
+                    part: 'snippet'
+                }
+            });
+            setHistoryTerm(old => {
+                const curr = [...old, searchTerm];
+                localStorage.setItem('@desafio_history', JSON.stringify(curr));
+                return curr
+            })
+            setVideos(response.data.items)
+        } catch {
+          
+        }
+    }, [])
+
     const getVideos = useCallback(async () => {
         try {
             const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
@@ -67,7 +89,6 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
                     part: 'snippet,contentDetails,statistics'
                 }
             });
-            setRequestInfor(response.data)
             setVideos(response.data.items)
         } catch {
             addToast({
@@ -81,6 +102,7 @@ const YouTubeContextProvider = ({ children }: { children: React.ReactNode }) => 
     return <YouTubeContext.Provider value={{ 
         getVideos, 
         getChannelById, 
+        search,
         videoHistory,
         historyTerm,
         videos }} >{children}</YouTubeContext.Provider>

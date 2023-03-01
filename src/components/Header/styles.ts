@@ -43,47 +43,10 @@ export const LogoContainer = styled(Link)`
 `
 
 export const SearchArea = styled.div`
-    display: flex;
     justify-content: flex-end;
     margin-top: 2rem;
-    & > div {
-        display: flex;
-        flex-direction: column;
-    }
-
-    input {
-        width: 250px;
-        border-style: none;
-        background-color: ${props => props.theme.colors.general[30]};
-        outline: none;
-        padding: .50rem 1rem .50rem 1rem;
-
-        color: ${props => props.theme.colors.general[80]};
-
-        font-weight: ${props => props.theme.fontWeight.medium};
-
-        margin-bottom: .25rem;
-    }
-
-    button {
-        height: 30px;
-        margin-left: 1rem;
-        border-style: none;
-        outline: none;
-
-        cursor: pointer;
-
-        padding: .25rem .50rem .25rem .50rem;
-
-        border-radius: 4px;
-
-        background-color: ${props => props.theme.colors.general[30]};
-        transition: background .5s ease;
-        &:hover{
-            background-color: ${props => props.theme.colors.general[50]};
-
-        }
-    }
+    display: flex;
+    flex-direction: column;
 `
 
 export const Menu = styled.div`

@@ -1,7 +1,7 @@
 import { Video } from '../../shared/types/Video';
 import { CardContainer, CardContent } from './styles';
 import ReactPlayer from 'react-player'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import { useYouTube } from '../../hooks/useYoutube';
 
 interface CardVideoProps {
@@ -13,6 +13,7 @@ const CardVideo = ({ video }: CardVideoProps) => {
     const [channelImg, setChannelImg] = useState('')
     const { getChannelById } = useYouTube();
 
+    const videoId = video.id.videoId || video.id;
     let timeout: number;
 
     useEffect(() => {
@@ -30,14 +31,14 @@ const CardVideo = ({ video }: CardVideoProps) => {
     }
     
     return (
-        <CardContainer to={`watch/${video.id}`} onMouseEnter={() => handleHover()}
+        <CardContainer to={`watch/${videoId}`} onMouseEnter={() => handleHover()}
             onMouseLeave={() => handleBlur()}>
             <ReactPlayer
                 playing={playing}
                 width='auto'
                 light
                 height={170}
-                url={`https://www.youtube.com/watch?v=${video.id}`} />
+                url={`https://www.youtube.com/watch?v=${videoId}`} />
 
             <CardContent>
                 <img src={channelImg} alt="" />
