@@ -93,16 +93,6 @@ export const LoginAndSignInArea = styled.div`
         margin-left: .50rem;
         margin-right: .50rem;
     }
-    a{
-        a:link {
-            color: inherit;
-            cursor: pointer;
-        }
-        a:visited{
-            text-decoration: inherit;
-            color: inherit;
-            cursor: pointer;
-            
-        }
+   
     }
 `

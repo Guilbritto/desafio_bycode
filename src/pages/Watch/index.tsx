@@ -4,7 +4,6 @@ import ReactPlayer from 'react-player';
 import {  useParams } from 'react-router-dom';
 import CardVideo from '../../components/CardVideo';
 import { useYouTube } from '../../hooks/useYoutube';
-import { Video } from '../../shared/types/Video';
 
 import { PageContainer, VideoContainer, VideoInfo, VideoDescription, RelatedVideosContainer} from './styles'
 

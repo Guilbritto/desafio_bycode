@@ -1,6 +1,6 @@
 import { Input } from 'dga-ui';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import UserProfile from '../UserProfile';
 import {BiSearchAlt2} from 'react-icons/bi'
@@ -46,7 +46,6 @@ const Header: React.FC = () => {
                 /> 
                 <Menu>
                     <MenuItem to='/'>Home</MenuItem>
-                    <MenuItem to='/'>Videos</MenuItem>
                     <MenuItem to='/'>Channels</MenuItem>
                 </Menu>
             </SearchArea>
@@ -54,16 +53,9 @@ const Header: React.FC = () => {
                 {profile ? <UserProfile /> : (
 
                     <LoginAndSignInArea>
-                        <Link to='/register'>
-                            Create Account
-                        </Link>
-                        <span>
-                            or
-                        </span>
-
-                        <button onClick={() => logIn()}>
+                        <a onClick={() => logIn()}>
                             SignIn
-                        </button>
+                        </a>
                     </LoginAndSignInArea>
                 )
                 }
